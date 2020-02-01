@@ -1,1 +1,1 @@
-# newGitTest-
+# SmallProjects
