@@ -14,7 +14,7 @@ height = 50
 x = 0 
 y = 0 
 
-# define objects
+# define objects 
 
 # display screen
 screen = pygame.display.set_mode(screenSize)
@@ -54,6 +54,7 @@ while carryOn:
 	if keys[pygame.K_DOWN]:
 		y += 10 
 	pygame.draw.rect(screen, (255,0,0), (x, y, width, height))   
+
 
 	## UPDATE SCREEN AND FPS  
 	pygame.display.update()
