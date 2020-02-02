@@ -40,12 +40,14 @@ while carryOn:
 
 
 	# DRAWING STUFF 
+	# black background 
 	screen.fill(black)
-	player = pygame.draw.rect(screen, red, [x, y, width, height],0)
-	
-	keys = pygame.key.get_pressed()  # This will give us a dictonary where each key has a value of 1 or 0. Where 1 is pressed and 0 is not pressed.
-
-	if keys[pygame.K_LEFT]: # We can check if a key is pressed like this
+	# create rectangle for player 
+	player = pygame.draw.rect(screen, (255,0,0), (x, y, width, height))   
+	# get_pressed fetches boolean dictionary of when keys are pressed
+	keys = pygame.key.get_pressed() 
+	# K_[direction] are the arrow keys, if statements retrieves if keys are being pressed down as either True or False 
+	if keys[pygame.K_LEFT]:
 		x -= 10
 	if keys[pygame.K_RIGHT]:
 		x += 10 
@@ -53,7 +55,7 @@ while carryOn:
 		y -= 10
 	if keys[pygame.K_DOWN]:
 		y += 10 
-	pygame.draw.rect(screen, (255,0,0), (x, y, width, height))   
+
 
 
 	## UPDATE SCREEN AND FPS  
