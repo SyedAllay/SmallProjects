@@ -8,11 +8,12 @@ white = (255,255,255)
 red = (255,0,0)
 
 # initialize other variables  
-screenSize = (800,800)
+screenSize = (800,600)
 width = 50 
 height = 50 
 x = 0 
 y = 0 
+speed = 10 
 
 # define objects 
 
@@ -23,7 +24,7 @@ pygame.display.set_caption('My First Game')
 
 # condition
 carryOn = True
-
+ 
 # clock will be used to update how quickly screen updates (FPS)
 clock = pygame.time.Clock()
 
@@ -48,15 +49,23 @@ while carryOn:
 	keys = pygame.key.get_pressed() 
 	# K_[direction] are the arrow keys, if statements retrieves if keys are being pressed down as either True or False 
 	if keys[pygame.K_LEFT]:
-		x -= 10
+		x -= speed 
 	if keys[pygame.K_RIGHT]:
-		x += 10 
+		x += speed 
 	if keys[pygame.K_UP]:
-		y -= 10
+		y -= speed 
 	if keys[pygame.K_DOWN]:
-		y += 10 
+		y += speed 
 
-
+	# constrained the player so it can go off the screen 
+	if x >= (screenSize[0]-width):
+		x = screenSize[0]-width
+	if y >= (screenSize[1]-height):
+		y = screenSize[1]-height 
+	if x <= 0:
+		x = 0
+	if y <= 0:
+		y = 0
 
 	## UPDATE SCREEN AND FPS  
 	pygame.display.update()
