@@ -2,6 +2,40 @@ import pygame
 # initialize pygame engine
 pygame.init()
 
+# create player objct 
+class player: 
+	def __init__(self,x,y,width,height):
+		self.x = x
+		self.y = y
+		self.width = width
+		self.height = height
+		self.speed = 10
+
+	def move(self):
+		keys = pygame.key.get_pressed() 
+		# K_[direction] are the arrow keys, if statements retrieves if keys are being pressed down as either True or False 
+		if keys[pygame.K_LEFT]:
+			self.x -= self.speed 
+		if keys[pygame.K_RIGHT]:
+			self.x += self.speed 
+		if keys[pygame.K_UP]:
+			self.y -= self.speed 
+		if keys[pygame.K_DOWN]:
+			self.y += self.speed 
+		# Contrain movement so player can't leave screen
+		if self.x >= (screenSize[0]-self.width):
+			self.x = screenSize[0]-self.width
+		if self.y >= (screenSize[1]-self.height):
+			self.y = screenSize[1]-self.height
+		if self.x <= 0:
+			self.x = 0
+		if self.y <= 0:
+			self.y = 0
+
+	def draw(self):
+		# draw player 
+		playerRect = pygame.draw.rect(screen, (255,0,0), (self.x, self.y, self.width, self.height))   
+
 # defines colors 
 black = (0,0,0)
 white = (255,255,255)
@@ -9,13 +43,8 @@ red = (255,0,0)
 
 # initialize other variables  
 screenSize = (800,600)
-width = 50 
-height = 50 
-x = 0 
-y = 0 
-speed = 10 
 
-# define objects 
+
 
 # display screen
 screen = pygame.display.set_mode(screenSize)
@@ -24,10 +53,10 @@ pygame.display.set_caption('My First Game')
 
 # condition
 carryOn = True
- 
+
 # clock will be used to update how quickly screen updates (FPS)
 clock = pygame.time.Clock()
-
+player1 = player(0,0,50,50)
 # Main game loop, while carryOn is True, game will run 
 while carryOn:
 	# For loop get all events that happen
@@ -36,37 +65,13 @@ while carryOn:
 		if event.type == pygame.QUIT:
 			carryOn = False 
 
-	# GAME LOGIC
-
-
-
-	# DRAWING STUFF 
 	# black background 
 	screen.fill(black)
-	# create rectangle for player 
-	player = pygame.draw.rect(screen, (255,0,0), (x, y, width, height))   
-	# get_pressed fetches boolean dictionary of when keys are pressed
-	keys = pygame.key.get_pressed() 
-	# K_[direction] are the arrow keys, if statements retrieves if keys are being pressed down as either True or False 
-	if keys[pygame.K_LEFT]:
-		x -= speed 
-	if keys[pygame.K_RIGHT]:
-		x += speed 
-	if keys[pygame.K_UP]:
-		y -= speed 
-	if keys[pygame.K_DOWN]:
-		y += speed 
 
-	# constrained the player so it can go off the screen 
-	if x >= (screenSize[0]-width):
-		x = screenSize[0]-width
-	if y >= (screenSize[1]-height):
-		y = screenSize[1]-height 
-	if x <= 0:
-		x = 0
-	if y <= 0:
-		y = 0
-
+	# draw player 
+	draw = player1.draw()
+	# allow movement
+	movement = player1.move()
 	## UPDATE SCREEN AND FPS  
 	pygame.display.update()
 	clock.tick(60)
