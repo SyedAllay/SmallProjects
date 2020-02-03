@@ -2,8 +2,42 @@ import pygame
 # initialize pygame engine
 pygame.init()
 
+# defines colors 
+black = (0,0,0)
+white = (255,255,255)
+red = (255,0,0)
+
+# initialize other variables  
+screenSize = (800,600)
+size = 50 
+
+
+# display screen
+screen = pygame.display.set_mode(screenSize)
+# initialize what is writeen at the top of the title-bar 
+pygame.display.set_caption('My First Game')
+
+# condition
+carryOn = True
+
+# clock will be used to update how quickly screen updates (FPS)
+clock = pygame.time.Clock()
+# initialize a player 
+
+class enemyWall():
+    """Class to define a ball"""
+    def __init__(self,screenSize,size):
+        self.width = screenSize[0]
+        self.height = size 
+        self.x = 0
+        self.y = 0
+
+    def draw(self):
+    	EnemyRec = pygame.draw.rect(screen, (0,255,0), (self.x, self.y, self.width, self.height)) 
+
 # create player objct 
 class player: 
+
 	def __init__(self,x,y,width,height):
 		self.x = x
 		self.y = y
@@ -36,27 +70,8 @@ class player:
 		# draw player 
 		playerRect = pygame.draw.rect(screen, (255,0,0), (self.x, self.y, self.width, self.height))   
 
-# defines colors 
-black = (0,0,0)
-white = (255,255,255)
-red = (255,0,0)
-
-# initialize other variables  
-screenSize = (800,600)
-
-
-
-# display screen
-screen = pygame.display.set_mode(screenSize)
-# initialize what is writeen at the top of the title-bar 
-pygame.display.set_caption('My First Game')
-
-# condition
-carryOn = True
-
-# clock will be used to update how quickly screen updates (FPS)
-clock = pygame.time.Clock()
 player1 = player(0,0,50,50)
+enemy = enemyWall(screenSize,size)
 # Main game loop, while carryOn is True, game will run 
 while carryOn:
 	# For loop get all events that happen
@@ -64,14 +79,14 @@ while carryOn:
 		# pygame.QUIT is the event where you press x on the top left of title-bar
 		if event.type == pygame.QUIT:
 			carryOn = False 
-
 	# black background 
 	screen.fill(black)
 
-	# draw player 
+	# draw player and allow for movement 
+	drawEnemy = enemy.draw()
 	draw = player1.draw()
-	# allow movement
 	movement = player1.move()
+
 	## UPDATE SCREEN AND FPS  
 	pygame.display.update()
 	clock.tick(60)
