@@ -25,8 +25,8 @@ carryOn = True
 clock = pygame.time.Clock()
 # initialize a player 
 
-class enemyWall():
-    """Class to define a ball"""
+class enemyWall:
+
     def __init__(self,screenSize,size):
         self.screenWidth = screenSize[0]
         self.screenHeight = screenSize[1] 
@@ -35,7 +35,19 @@ class enemyWall():
         self.x1 = 0
         self.size = size
 
-    def move(self):
+    def moveR(self):
+    	if self.x1 <= self.screenWidth:
+    		self.x1 += 5
+    	else:
+    		self.x1 = -self.size*2
+
+    def moveL(self):
+    	if self.x1 >= -self.size*2:
+    		self.x1 -= 5
+    	else:
+    		self.x1 = self.screenWidth + self.size*2
+
+    def moveRan(self):
     	if self.y == -self.size:
     		self.x1 = random.randint(0,self.screenWidth)
     	if self.y <= self.screenHeight:
@@ -94,9 +106,9 @@ while carryOn:
 	# black background 
 	screen.fill(black)
 
-	# draw player and allow for movement 
+	# draw player,enemy and allow for movement
 	drawEnemy = enemy.draw()
-	moveEnemy = enemy.move()
+	moveEnemy = enemy.moveR()
 	draw = player1.draw()
 	movement = player1.move()
 
