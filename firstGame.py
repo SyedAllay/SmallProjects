@@ -1,4 +1,5 @@
 import pygame 
+import random 
 # initialize pygame engine
 pygame.init()
 
@@ -27,13 +28,24 @@ clock = pygame.time.Clock()
 class enemyWall():
     """Class to define a ball"""
     def __init__(self,screenSize,size):
-        self.width = screenSize[0]
-        self.height = size 
+        self.screenWidth = screenSize[0]
+        self.screenHeight = screenSize[1] 
         self.x = 0
         self.y = 0
+        self.x1 = 0
+        self.size = size
+
+    def move(self):
+    	if self.y == -self.size:
+    		self.x1 = random.randint(0,self.screenWidth)
+    	if self.y <= self.screenHeight:
+    		self.y += 5
+    	else:
+    		self.y = -self.size
 
     def draw(self):
-    	EnemyRec = pygame.draw.rect(screen, (0,255,0), (self.x, self.y, self.width, self.height)) 
+    	EnemyRec = pygame.draw.rect(screen, (0,255,0), (self.x, self.y, self.screenWidth, self.size)) 
+    	EnemyRecHole = pygame.draw.rect(screen, (0,0,0), (self.x1, self.y, self.size + 50, self.size + 50)) 
 
 # create player objct 
 class player: 
@@ -84,6 +96,7 @@ while carryOn:
 
 	# draw player and allow for movement 
 	drawEnemy = enemy.draw()
+	moveEnemy = enemy.move()
 	draw = player1.draw()
 	movement = player1.move()
 
