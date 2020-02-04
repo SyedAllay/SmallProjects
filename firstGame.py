@@ -10,7 +10,8 @@ red = (255,0,0)
 
 # initialize other variables  
 screenSize = (800,600)
-size = 50 
+holeSize = 100 
+playerSize = 50 
 score = 0 
 
 # display screen
@@ -27,37 +28,41 @@ clock = pygame.time.Clock()
 
 class enemyWall:
 
-    def __init__(self,screenSize,size):
+    def __init__(self,screenSize,playerSize, holeSize):
         self.screenWidth = screenSize[0]
         self.screenHeight = screenSize[1] 
         self.x = 0
         self.y = 0
-        self.x1 = 0
-        self.size = size
+        self.x1 = 300
+        self.playerSize = playerSize 
+        self.holeSize = holeSize 
+        self.holeHeight = playerSize
 
+    # moves hole to the left
     def moveR(self):
         if self.x1 <= self.screenWidth:
             self.x1 += 5
         else:
-            self.x1 = -self.size*2
-
+            self.x1 = -self.holeSize
+    # moves hole to the right 
     def moveL(self):
-        if self.x1 >= -self.size*2:
+        if self.x1 >= -self.holeSize:
             self.x1 -= 5
         else:
-            self.x1 = self.screenWidth + self.size*2
-
+            self.x1 = self.screenWidth + self.holeSize
+    # moves hole randomly after every reset to the top
     def moveRan(self):
-        if self.y == -self.size:
-            self.x1 = random.randint(0,self.screenWidth-self.size*2)
+        if self.y == -self.playerSize:
+            self.x1 = random.randint(0,self.screenWidth-self.holeSize)
         if self.y <= self.screenHeight:
             self.y += 5
         else:
-            self.y = -self.size
+            self.y = -self.playerSize
 
     def draw(self):
-        EnemyRec = pygame.draw.rect(screen, (0,255,0), (self.x, self.y, self.screenWidth, self.size)) 
-        EnemyRecHole = pygame.draw.rect(screen, (0,0,0), (self.x1, self.y, self.size + 50, self.size + 50)) 
+        # draw hole and bar 
+        EnemyRec = pygame.draw.rect(screen, (0,255,0), (self.x, self.y, self.screenWidth, self.playerSize)) 
+        EnemyRecHole = pygame.draw.rect(screen, (0,0,0), (self.x1, self.y, self.holeSize, self.holeHeight)) 
 
 # create player objct 
 class player: 
@@ -67,9 +72,7 @@ class player:
         self.y = y
         self.width = width
         self.height = height
-        self.speed = 10
-    def ok(self):
-        print('lol')        
+        self.speed = 10       
 
     def move(self):
         keys = pygame.key.get_pressed() 
@@ -96,8 +99,8 @@ class player:
         # draw player 
         playerRect = pygame.draw.rect(screen, (255,0,0), (self.x, self.y, self.width, self.height))   
 
-player1 = player(0,0,50,50)
-enemy = enemyWall(screenSize,size)
+player1 = player(400,400,50,50)
+enemy = enemyWall(screenSize,playerSize,holeSize)
 # Main game loop, while carryOn is True, game will run 
 while carryOn:
     # For loop get all events that happen
@@ -107,13 +110,21 @@ while carryOn:
             carryOn = False 
     # black background 
     screen.fill(black)
-
+    def collision(playerSize,holeSize,player1,enemy):
+        if player1.y <= (enemy.y + playerSize) and enemy.y <= player1.y:
+            if (player1.x <= enemy.x1):
+                return True
+            if ((player1.x + playerSize) >= (enemy.x1 + holeSize)):
+                return True
+            else:
+                return False
     # draw player,enemy and allow for movement
     drawEnemy = enemy.draw()
     moveEnemy = enemy.moveRan()
     draw = player1.draw()
     movement = player1.move()
-
+    if collision(playerSize,holeSize,player1,enemy):
+        carryOn = False 
     ## UPDATE SCREEN AND FPS  
     pygame.display.update()
     clock.tick(60)
