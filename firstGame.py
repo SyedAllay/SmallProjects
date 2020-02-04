@@ -110,7 +110,7 @@ while carryOn:
 
     # draw player,enemy and allow for movement
     drawEnemy = enemy.draw()
-    moveEnemy = enemy.moveR()
+    moveEnemy = enemy.moveRan()
     draw = player1.draw()
     movement = player1.move()
 
